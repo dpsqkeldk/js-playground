@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gugudan</title>
+</head>
+<body>
+<h1>gugudan</h1>
+<script>
+    // console.log("2단")
+    // console.log(2 * 1)
+    // console.log(2 * 2)
+    // console.log(2 * 3)
+    // console.log(2 * 4)
+    // console.log(2 * 5)
+    // console.log(2 * 6)
+    // console.log(2 * 7)
+    // console.log(2 * 8)
+    // console.log(2 * 9)
+    // console.log("3단")
+    // console.log(3 * 1)
+    // console.log(3 * 2)
+    // console.log(3 * 3)
+    // console.log(3 * 4)
+    // console.log(3 * 5)
+    // console.log(3 * 6)
+    // console.log(3 * 7)
+    // console.log(3 * 8)
+    // console.log(3 * 9)
+    // console.log("구구단 시작")
+    // var y = 1;
+    // for(x = 1; x <= 9; x++) {
+    //     console.log(y + "*" + x + "=" + x * y);
+    //     if (x === 9) {
+    //         y++;
+    //         x = 0;
+    //     }
+    //     if (y === 10) {
+    //         break;
+    //     }
+    // }
+    //뒷자리가 앞자리랑 같아지면 앞자리가 초기화되는 되는 100x100까지의 구구단
+       var y = 1;
+    for (x = 1; x <= y; x++) {
+        console.log(y + "*" + x + "=" + x * y)
+        if (x === y) {
+            y++;
+            x = 0;
+        }
+        if (y > 100) {
+            break;
+        } 
+    }
+</script>
+</body>
+</html>
