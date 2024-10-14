@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+</head>
+<body>
+    <h1> if 문 사용해 보기</h1>
+    출력할 단: <input type="text" id="num">
+    <button onclick="display()">확인</button>
+    <script>
+        function display() {
+            var StrN = document.getElementById("num").value;
+            var n = Number(StrN);
+            if (n >= 2 && n <= 9) {
+                for (i = 1; i <= 9; i++) {
+                    document.write(n + " * " + i + " = " + n * i + "<br>");
+                }
+            } else {
+            document.write("2이상 9이하의 숫자를 입력하세요.");
+            }
+        }
+        </script>
+</body>
+</html>
