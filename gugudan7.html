@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="KO">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body>
+    <script>
+        var num = Number(prompt("몇 단을 출력할까요?"))
+        if (num > 1 && num < 10) {
+            document.write("<h1>구구단 " + num + "단</h1>")
+            for (i = 1; i <= 9; i++) {
+                var result = num * i
+                console.log(num + " * " + i + " = " + num * i)
+            }
+        } else {
+            document.write("2이상, 9이하의 값만 입력할 수 있습니다.")
+        }
+    </script>
+</body>
+</html>
