@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>array를 활용한 구구단 2단</title>
+</head>
+<body>
+    <script>
+        var results = [];
+        var length = 9;
+        var gugudan = {};
+        gugudan.allDan = function() {
+            for (i = 2; i <= length; i++) { 
+                this.decideOneDan(i);
+                this.OneDanOutput(i);
+                if (i = 2) {
+                    break;
+                }
+            }
+        };
+
+        gugudan.decideOneDan = function(dan) {
+            for (i = 2; i < length; i++) {
+                results[i] = dan * i
+            }
+        };
+
+        gugudan.OneDanOutput = function(ndan) {
+            for (i = 0; i < results.length; i++) {
+                var str = "";
+                str += ndan;
+                str += " X "
+                str += (i + 2);
+                str += " = "
+                str += results[i];
+                str += "<br>"
+                document.write(str);
+            }
+        }
+        gugudan.allDan();
+        </script>
+</body>
+</html>
