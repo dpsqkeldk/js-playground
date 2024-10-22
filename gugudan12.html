@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>구구단</title>
+</head>
+<body>
+    <h1>구구단 최종버전</h1>
+    <script>
+        var twonum = prompt("두개의 숫자를 입력하세요 ex) 8,7")
+        var separateSentence = twonum.split(",");
+        var firstNum = separateSentence[0];
+        var secondNum = separateSentence[1];
+        
+        gugudan = {};
+
+        gugudan.calculate = function(nDan) {
+            gugudan.results = [];
+            for (i = 0; i < secondNum; i++) {
+                this.results[i] = nDan * (i + 1);
+            }
+            return this.results;
+        };
+
+        gugudan.print = function(n, result) {
+            document.write("<h2>" + n + "단</h2>")
+            for (i = 0; i < secondNum; i++) {
+                document.write(n + " X " + (i + 1) + " = " + n * (i + 1) + "<br>")
+            }
+        };
+
+        gugudan.main = function() {
+            for (n = 2; n <= firstNum; n++) {
+                var result = gugudan.calculate();
+                gugudan.print(n, result);
+            }
+        };
+
+        gugudan.main();
+    </script>
+</body>
+</html>
