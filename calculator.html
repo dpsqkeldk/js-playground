@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>계산기</title>
+</head>
+<body>
+    <h1>계산기</h1>
+    <div id="result"></div>
+    <div></div>입력한 식: <span id="input"></span></div>
+    <script>
+        const str = prompt("계산할 식을 입력해주세요.");
+        const numbers = str.split(/[\+\-\*\%]/);
+        const operators = str.match(/[\+\-\*\%]/g);
+
+        const cal = {};
+        cal.main = function() {
+            console.log("계산기 시작");
+            for(var i = 0; i < operators.length; i++) {
+                numbers[i+1] = cal.calculate(Number(numbers[i]), Number(numbers[i+1]), i);
+            }
+            document.getElementById("result").innerHTML = numbers[numbers.length - 1];
+            document.getElementById("input").innerHTML = str;
+        };
+
+        cal.calculate = function(a, b, i) {
+            if(operators[i] === '+') {
+                a += b;
+            } else if(operators[i] === '-') {
+                a -= b;
+            } else if(operators[i] === '*') {
+                a *= b;
+            } else if(operators[i] === '%') {
+                a /= b;
+            }
+            return a;
+        };
+            
+        
+
+
+        cal.main();
+
+    </script>
+</body>
+</html>
