@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<head>
+
+</head>
+<body>
+    <h1>계산기</h1>
+    <div>입력값: <span id='input'></span></div>
+    <div>결과: <span id='result'></span></div>
+    <script>
+        const input = document.getElementById('input');
+        const result = document.getElementById('result');  
+        const str = prompt("식을 입력하세요. 사칙연산 가능 ( + , - , * , % )")
+        input.innerText = str;
+        
+        let numbers = str.split(/[\+\-\*\%]/); 
+        const operators = str.match(/[\+\-\*\%]/g);
+        console.log(numbers);
+        console.log(operators);
+        
+        const cal = {};
+        
+        cal.convertNumbers = function() {
+            numbers = numbers.map(num => parseFloat(num));
+        };
+
+        cal.mutiple = function() {
+            const n = operators.indexOf("*");
+            console.log("곱셈실행" + numbers[n] + "*" + numbers[n+1]);
+            cal.calculate(n, "*");
+        };
+        
+        cal.division = function() {
+            const n = operators.indexOf("%");
+            console.log("나눗셈실행" + numbers[n] + "/" + numbers[n+1]);
+            cal.calculate(n, "/");
+        };
+        
+        cal.plus = function() {
+            const n = operators.indexOf("+");
+            console.log("덧셈실행" + numbers[n] + "+" + numbers[n+1]);
+            cal.calculate(n, "+");
+        };
+        
+        cal.minus = function() {
+            const n = operators.indexOf("-");
+            console.log("뺄셈실행" + numbers[n] + "-" + numbers[n+1]);
+            cal.calculate(n, "-");
+        };
+        
+        cal.calculate = function(n, op) {
+            switch (op) {
+                case '*': numbers[n] *= numbers[n+1]; break;
+                case '/': numbers[n] /= numbers[n+1]; break;
+                case '+': numbers[n] += numbers[n+1]; break;
+                case '-': numbers[n] -= numbers[n+1]; break;
+            }
+            cal.delete(n);
+            console.log(numbers);
+            console.log(operators);
+        };
+        
+        cal.delete = function(n) {
+            numbers.splice(n+1, 1);
+            operators.splice(n, 1);
+        };
+        
+        cal.convertNumbers();
+
+        cal.main = function() {
+            if (operators.includes("*")) {
+                cal.mutiple();
+            } else if (operators.includes("%")) {
+                cal.division();
+            } else if (operators.includes("+")) {
+                cal.plus();
+            } else if (operators.includes("-")) {
+                cal.minus();
+            }
+        };
+        while (operators.length != 0) {
+            cal.main();
+        };
+        result.innerText = numbers[0];
+        </script>
+</body>
+</html>
