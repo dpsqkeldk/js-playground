@@ -68,6 +68,7 @@
 
 <body>
     <div class="calculator">
+        <!-- 화면 -->
         <div class="display">
             <div class="previous">값을 입력하세요.</div>
             <div class="current">0</div>
@@ -101,6 +102,9 @@
         </div>
     </div>
     <script>
+        // 문자열 계산 클래스 #부모클래스
+        // 어떤 클래스인가? display에 표현되는 입력식을 계산하고 display 윗 부분에 작게 표현하는 클래스
+        //이 클래스를 정의한 이유, 하나의 클래스가 너무 커져 분리하기로 결정
         class StringCalculator {
             constructor() {
                 this.current = document.querySelector('.current');
@@ -108,6 +112,7 @@
                 this.numbers = [];
                 this.operators = [];
             }
+
             // 메인 메서드
             main() {
                 this.splitString();
@@ -115,6 +120,7 @@
                 this.findOperator();
                 return this.postCalculate();
             }
+
             // 문자열 분리 메서드
             splitString() {
                 this.numbers = this.current.innerText.split(/[\+\-\×\÷]/);
@@ -126,15 +132,12 @@
                 console.log("숫자:", this.numbers);
                 console.log("연산자:", this.operators);
             }
+
             // 문자열 Number 변환 메서드
             convertString() {
                 this.numbers = this.numbers.map(num => Number(num));
             }
-            convertString2() {
-                for (let i = 0; i < this.numbers.length; i++) {
-                    this.numbers[i] = Number(this.numbers[i]);
-                }
-            }
+
             // 곱셈, 나눗셈 메서드
             findOperator() {
                 while (this.operators.includes("×") || this.operators.includes("÷")) {
@@ -145,6 +148,7 @@
                     }
                 }
             }
+
             // 곱셈, 나눗셈 계산 메서드
             preCalculate(operator, index) {
                 switch (operator) {
@@ -158,6 +162,7 @@
                     break;
                 }
             }
+
             // 덧셈, 뺄셈 계산 메서드
             postCalculate() {
                 while (!this.operators.length == 0) {
@@ -178,7 +183,7 @@
         }
 
 
-        // 계산기 클래스
+        // 계산기 클래스 #자식클래스
         class Calculator extends StringCalculator {
             // 생성자 메서드
             constructor() {
@@ -205,7 +210,7 @@
                 });
             }
 
-            // 숫자버튼 클릭 메서드
+            // 숫자버튼 클릭 시 실행되는 메서드
             ClickNumber(number) {
                 if (this.thereIsOperator && number == "0") {
                     console.log("연산자 이후 0 입력 방지")
@@ -220,7 +225,7 @@
                     this.UpdatePrevious();
             }
 
-            // 연산자버튼 클릭 메서드
+            // 연산자버튼 클릭 시 실행되는 메서드
             ClickOperator(operator) {
                 if (this.recentIsNumber) {  
                     this.current.innerText += operator;
@@ -232,7 +237,7 @@
                 }
             }
 
-            // .previous 갱신 메서드 // 숫자버튼 클릭시마다 호출됨
+            // 입력식 계산값을 실시간으로 갱신하는 메서드 // 숫자버튼 클릭시마다 호출됨
             UpdatePrevious() {
                 this.previous = document.querySelector('.previous');
                 if (this.thereIsOperator && this.recentIsNumber) {
@@ -245,7 +250,7 @@
 
 
 
-            //초기화 메서드
+            // 입력식을 초기화하는 메서드
             clear() {
                 this.current.innerText = "0";
                 this.thereIsOperator = false;
