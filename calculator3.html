@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html>
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,36 +10,30 @@
             justify-items: center;
             margin: 0;
         }
-
         .calculator {
             display: grid;
             background-color: #f0f0f0;
         }
-
         .display {
             text-align: right;
             padding: 20px;
             border-bottom: 1px solid #ccc;
         }
-
         .previous {
             font-size: 1.2em;
             color: #666;
         }
-
         .current {
             font-size: 2em;
         }
-
-        .buttons {
+        .buttons{
             display: grid;
             grid-template-columns: repeat(4, 1fr);
             padding: 10px;
             justify-items: center;
             font-size: 1.2em;
         }
-
-        .btn {
+        .buttons button{
             border-radius: 50%;
             width: 50px;
             height: 50px;
@@ -49,214 +42,47 @@
             border: none;
             cursor: pointer;
         }
-
-        .number {
+        .numbers{
             background-color: #fff;
         }
-
-        .operator {
+        .operators{
             background-color: #d3d3d3;
             color: green;
         }
-
-        .equal {
+        .equal{
             background-color: green;
             color: #fff;
         }
     </style>
 </head>
-
 <body>
     <div class="calculator">
         <div class="display">
-            <div class="previous">값을 입력하세요.</div>
-            <div class="current">0</div>
+            <div class="previous">123 +</div>
+            <div class="current">456</div>
         </div>
         <div class="buttons">
-            <!-- 숫자 -->
-            <button class="btn number">1</button>
-            <button class="btn number">2</button>
-            <button class="btn number">3</button>
-            <button class="btn number">4</button>
-            <button class="btn number">5</button>
-            <button class="btn number">6</button>
-            <button class="btn number">7</button>
-            <button class="btn number">8</button>
-            <button class="btn number">9</button>
-            <button class="btn number">0</button>
-
-            <!-- 연산자 -->
-            <button class="btn operator">+</button>
-            <button class="btn operator">-</button>
-            <button class="btn operator">×</button>
-            <button class="btn operator">÷</button>
-            
-            <!-- 기타버튼 -->
-            <button class="btn operator parentheses ">( )</button>
-            <button class="btn operator percent">%</button>
-            <button class="btn operator plusminus">+/-</button>
-            <button class="btn operator dot">.</button>
-            <button class="btn operator clear">C</button>
-            <button class="btn operator equal">=</button>
+            <button class="operators">C</button>
+            <button class="operators">( )</button>
+            <button class="operators">%</button>
+            <button class="operators">÷</button>
+            <button class="numbers">7</button>
+            <button class="numbers">8</button>
+            <button class="numbers">9</button>
+            <button class="operators">×</button>
+            <button class="numbers">4</button>
+            <button class="numbers">5</button>
+            <button class="numbers">6</button>
+            <button class="operators">-</button>
+            <button class="numbers">1</button>
+            <button class="numbers">2</button>
+            <button class="numbers">3</button>
+            <button class="operators">+</button>
+            <button class="numbers">+/-</button>
+            <button class="numbers">0</button>
+            <button class="numbers">.</button>
+            <button class="equal">=</button>
         </div>
     </div>
-    <script>
-        class StringCalculator {
-            constructor() {
-                this.current = document.querySelector('.current');
-                this.array = [this.current.innerText];
-                this.numbers = [];
-                this.operators = [];
-            }
-            // 메인 메서드
-            main() {
-                this.splitString();
-                this.convertString();
-                this.findOperator();
-                return this.postCalculate();
-            }
-            // 문자열 분리 메서드
-            splitString() {
-                this.numbers = this.current.innerText.split(/[\+\-\×\÷]/);
-                this.operators = this.current.innerText.split(/[0-9]/);
-                while (this.operators.includes("")) {
-                    let index = this.operators.indexOf("");
-                    this.operators.splice(index, 1);
-                }
-                console.log("숫자:", this.numbers);
-                console.log("연산자:", this.operators);
-            }
-            // 문자열 Number 변환 메서드
-            convertString() {
-                this.numbers = this.numbers.map(num => Number(num));
-            }
-            convertString2() {
-                for (let i = 0; i < this.numbers.length; i++) {
-                    this.numbers[i] = Number(this.numbers[i]);
-                }
-            }
-            // 곱셈, 나눗셈 메서드
-            findOperator() {
-                while (this.operators.includes("×") || this.operators.includes("÷")) {
-                    if (this.operators.includes("×")) {
-                        this.preCalculate("×", this.operators.indexOf("×"));
-                    } else if (this.operators.includes("÷")) {
-                        this.preCalculate("÷", this.operators.indexOf("÷"));
-                    }
-                }
-            }
-            // 곱셈, 나눗셈 계산 메서드
-            preCalculate(operator, index) {
-                switch (operator) {
-                    case "×": this.numbers[index] *= this.numbers[index+1];
-                    this.numbers.splice(index+1, 1);
-                    this.operators.splice(index, 1);
-                    break;
-                case "÷": this.numbers[index] /= this.numbers[index+1];
-                    this.numbers.splice(index+1, 1);
-                    this.operators.splice(index, 1);
-                    break;
-                }
-            }
-            // 덧셈, 뺄셈 계산 메서드
-            postCalculate() {
-                while (!this.operators.length == 0) {
-                    switch (this.operators[0]) {
-                        case "+": this.numbers[0] += this.numbers[1];
-                        this.numbers.splice(1, 1);
-                        this.operators.splice(0, 1);
-                        break;
-                        case "-": this.numbers[0] -= this.numbers[1];
-                        this.numbers.splice(1, 1);
-                        this.operators.splice(0, 1);
-                        break;
-                    }
-                }
-                return this.numbers[0];
-                console.log("최종 계산 결과:", this.numbers[0]);    
-            }
-        }
-
-
-        // 계산기 클래스
-        class Calculator extends StringCalculator {
-            // 생성자 메서드
-            constructor() {
-                super();
-                this.addEventListeners();
-                this.thereIsOperator = false; // 연산자 버튼 두번 클릭 방지
-                this.recentIsNumber = false; // 최근에 숫자버튼 클릭 여부 (previous 갱신)
-            }
-
-            // 이벤트 리스너 설정 메서드
-            addEventListeners() {
-                document.querySelectorAll('.number').forEach(button => {
-                    button.addEventListener('click', () => {
-                        this.ClickNumber(button.textContent);
-                    });
-                });
-                document.querySelectorAll('.operator').forEach(button => {
-                    button.addEventListener('click', () => {
-                        this.ClickOperator(button.textContent);
-                    });
-                });
-                document.querySelector('.clear').addEventListener('click', () => {
-                    this.clear();
-                });
-            }
-
-            // 숫자버튼 클릭 메서드
-            ClickNumber(number) {
-                if (this.thereIsOperator && number == "0") {
-                    console.log("연산자 이후 0 입력 방지")
-                    return;
-                }
-                this.current = document.querySelector('.current');
-                if (this.current.innerText == "0") {
-                        this.current.innerText = "";
-                    } //이로 인해 첫 입력 시 0 삭제 || 0입력 시 0 유지
-                    this.current.innerText += number;
-                    this.recentIsNumber = true;
-                    this.UpdatePrevious();
-            }
-
-            // 연산자버튼 클릭 메서드
-            ClickOperator(operator) {
-                if (this.recentIsNumber) {  
-                    this.current.innerText += operator;
-                    this.thereIsOperator = true;
-                    this.recentIsNumber = false;
-                    this.UpdatePrevious();
-                } else {
-                    console.log("연산자 버튼 두번 클릭 방지")
-                }
-            }
-
-            // .previous 갱신 메서드 // 숫자버튼 클릭시마다 호출됨
-            UpdatePrevious() {
-                this.previous = document.querySelector('.previous');
-                if (this.thereIsOperator && this.recentIsNumber) {
-                    this.previous.innerText = this.main();
-                    console.log("previous 갱신")
-                } else if (!this.recentIsNumber) {
-                    this.previous.innerText = "계산중...";
-                }
-            }
-
-
-
-            //초기화 메서드
-            clear() {
-                this.current.innerText = "0";
-                this.thereIsOperator = false;
-                this.previous.innerText = "값을 입력하세요."
-
-            }
-        }
-
-        // 계산기 인스턴스 생성
-        const calc = new Calculator();
-    </script>
 </body>
-
 </html>
