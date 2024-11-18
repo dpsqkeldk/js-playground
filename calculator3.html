@@ -37,7 +37,7 @@
             grid-template-columns: repeat(4, 1fr);
             padding: 10px;
             justify-items: center;
-            font-size: 1.2em;
+            font-size: 1.1em;
         }
 
         .btn {
@@ -59,9 +59,25 @@
             color: green;
         }
 
+        .operator.clear {
+            color: red;
+        }
+
         .equal {
             background-color: green;
             color: #fff;
+        }
+
+        .backspace {
+            border-radius: 50%;
+            background-color: #d3d3d3;
+            border: none;
+            color: green;
+            width: 30px;
+            height: 30px;
+            cursor: pointer;
+            font-size: 1.1em;
+            margin-top: 10px;
         }
     </style>
 </head>
@@ -72,39 +88,34 @@
         <div class="display">
             <div class="previous">값을 입력하세요.</div>
             <div class="current">0</div>
+            <button class="backspace">←</button>
         </div>
         <div class="buttons">
-            <!-- 숫자 -->
-            <button class="btn number">1</button>
-            <button class="btn number">2</button>
-            <button class="btn number">3</button>
-            <button class="btn number">4</button>
-            <button class="btn number">5</button>
-            <button class="btn number">6</button>
+            <button class="btn operator clear">C</button>
+            <button class="btn operator parentheses ">( )</button>
+            <button class="btn operator percent">%</button>
+            <button class="btn operator">÷</button>
             <button class="btn number">7</button>
             <button class="btn number">8</button>
             <button class="btn number">9</button>
-            <button class="btn number">0</button>
-
-            <!-- 연산자 -->
-            <button class="btn operator">+</button>
-            <button class="btn operator">-</button>
             <button class="btn operator">×</button>
-            <button class="btn operator">÷</button>
-            
-            <!-- 기타버튼 -->
-            <button class="btn operator parentheses ">( )</button>
-            <button class="btn operator percent">%</button>
+            <button class="btn number">4</button>
+            <button class="btn number">5</button>
+            <button class="btn number">6</button>
+            <button class="btn operator">-</button>
+            <button class="btn number">1</button>
+            <button class="btn number">2</button>
+            <button class="btn number">3</button>
+            <button class="btn operator">+</button>
             <button class="btn operator plusminus">+/-</button>
+            <button class="btn number">0</button>
             <button class="btn operator dot">.</button>
-            <button class="btn operator clear">C</button>
             <button class="btn operator equal">=</button>
         </div>
     </div>
     <script>
         // 문자열 계산 클래스 #부모클래스
-        // 어떤 클래스인가? display에 표현되는 입력식을 계산하고 display 윗 부분에 작게 표현하는 클래스
-        //이 클래스를 정의한 이유, 하나의 클래스가 너무 커져 분리하기로 결정
+        // display의 입력식을 매 시간 계산하고 실시간으로 display 입력식 위에 출력함.
         class StringCalculator {
             constructor() {
                 this.current = document.querySelector('.current');
