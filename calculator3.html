@@ -5,81 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>계산기</title>
-    <style>
-        body {
-            display: grid;
-            justify-items: center;
-            margin: 0;
-        }
-
-        .calculator {
-            display: grid;
-            background-color: #f0f0f0;
-        }
-
-        .display {
-            text-align: right;
-            padding: 20px;
-            border-bottom: 1px solid #ccc;
-        }
-
-        .previous {
-            font-size: 1.2em;
-            color: #666;
-        }
-
-        .current {
-            font-size: 2em;
-        }
-
-        .buttons {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            padding: 10px;
-            justify-items: center;
-            font-size: 1.1em;
-        }
-
-        .btn {
-            border-radius: 50%;
-            width: 50px;
-            height: 50px;
-            margin: 5px;
-            font-size: 1.2em;
-            border: none;
-            cursor: pointer;
-        }
-
-        .number {
-            background-color: #fff;
-        }
-
-        .operator {
-            background-color: #d3d3d3;
-            color: green;
-        }
-
-        .operator.clear {
-            color: red;
-        }
-
-        .equal {
-            background-color: green;
-            color: #fff;
-        }
-
-        .backspace {
-            border-radius: 50%;
-            background-color: #d3d3d3;
-            border: none;
-            color: green;
-            width: 30px;
-            height: 30px;
-            cursor: pointer;
-            font-size: 1.1em;
-            margin-top: 10px;
-        }
-    </style>
+    <link rel="stylesheet" href="calculator3.css">
 </head>
 
 <body>
@@ -126,6 +52,9 @@
 
             // 메인 메서드
             main() {
+                // if (this.array.includes("(") || this.array.includes(")")) {
+                //     this.parenthesesCalculate();
+                // } //괄호 계산 메서드 실행함수 미완성
                 this.splitString();
                 this.convertString();
                 this.findOperator();
@@ -163,14 +92,14 @@
             // 곱셈, 나눗셈 계산 메서드
             preCalculate(operator, index) {
                 switch (operator) {
-                    case "×": this.numbers[index] *= this.numbers[index+1];
-                    this.numbers.splice(index+1, 1);
-                    this.operators.splice(index, 1);
-                    break;
-                case "÷": this.numbers[index] /= this.numbers[index+1];
-                    this.numbers.splice(index+1, 1);
-                    this.operators.splice(index, 1);
-                    break;
+                    case "×": this.numbers[index] *= this.numbers[index + 1];
+                        this.numbers.splice(index + 1, 1);
+                        this.operators.splice(index, 1);
+                        break;
+                    case "÷": this.numbers[index] /= this.numbers[index + 1];
+                        this.numbers.splice(index + 1, 1);
+                        this.operators.splice(index, 1);
+                        break;
                 }
             }
 
@@ -179,17 +108,28 @@
                 while (!this.operators.length == 0) {
                     switch (this.operators[0]) {
                         case "+": this.numbers[0] += this.numbers[1];
-                        this.numbers.splice(1, 1);
-                        this.operators.splice(0, 1);
-                        break;
+                            this.numbers.splice(1, 1);
+                            this.operators.splice(0, 1);
+                            break;
                         case "-": this.numbers[0] -= this.numbers[1];
-                        this.numbers.splice(1, 1);
-                        this.operators.splice(0, 1);
-                        break;
+                            this.numbers.splice(1, 1);
+                            this.operators.splice(0, 1);
+                            break;
                     }
                 }
                 return this.numbers[0];
-                console.log("최종 계산 결과:", this.numbers[0]);    
+                console.log("최종 계산 결과:", this.numbers[0]);
+            }
+
+            // 괄호 계산 메서드 미완성
+            parenthesesCalculate() {
+                let countA = this.array.filter(pa => pa === "(").length
+                let countB = this.array.filter(pa => pa === ")").length
+                if (countA === countB) {
+                    let indexA = this.array.indexOf("(");
+                    let indexB = this.array.lastIndexOf(")");
+
+                }
             }
         }
 
@@ -200,8 +140,8 @@
             constructor() {
                 super();
                 this.addEventListeners();
-                this.thereIsOperator = false; // 연산자 버튼 두번 클릭 방지
-                this.recentIsNumber = false; // 최근에 숫자버튼 클릭 여부 (previous 갱신)
+                this.thereIsOperator = 0; // 연산자 개수
+                this.recentIsNumber = 0; // 최근에 숫자버튼 클릭 여부 (previous 갱신)
             }
 
             // 이벤트 리스너 설정 메서드
@@ -219,57 +159,84 @@
                 document.querySelector('.clear').addEventListener('click', () => {
                     this.clear();
                 });
+                document.querySelector('.parentheses').addEventListener('click', () => {
+                    this.ClickParentheses();
+                });
+                document.querySelector('.backspace').addEventListener('click', () => this.Backspace());
             }
 
             // 숫자버튼 클릭 시 실행되는 메서드
             ClickNumber(number) {
-                if (this.thereIsOperator && number == "0") {
-                    console.log("연산자 이후 0 입력 방지")
-                    return;
-                }
+
                 this.current = document.querySelector('.current');
                 if (this.current.innerText == "0") {
-                        this.current.innerText = "";
-                    } //이로 인해 첫 입력 시 0 삭제 || 0입력 시 0 유지
-                    this.current.innerText += number;
-                    this.recentIsNumber = true;
-                    this.UpdatePrevious();
+                    this.current.innerText = "";
+                } //이로 인해 첫 입력 시 0 삭제 || 0입력 시 0 유지
+                this.current.innerText += number;
+                this.recentIsNumber++;
+                this.thereIsOperator = 0;
+                this.UpdatePrevious();
             }
 
             // 연산자버튼 클릭 시 실행되는 메서드
             ClickOperator(operator) {
-                if (this.recentIsNumber) {  
+                if (this.recentIsNumber > 0) {
                     this.current.innerText += operator;
-                    this.thereIsOperator = true;
-                    this.recentIsNumber = false;
+                    this.thereIsOperator++;
+                    this.recentIsNumber = 0;
                     this.UpdatePrevious();
-                } else {
-                    console.log("연산자 버튼 두번 클릭 방지")
+                } else if (this.thereIsOperator > 0) {
+                    console.log("연산자 이후 연산자 방지")
+                } else if (this.thereIsOperator === 0) {
+                    console.log("연산자 첫입력 방지")
                 }
             }
 
             // 입력식 계산값을 실시간으로 갱신하는 메서드 // 숫자버튼 클릭시마다 호출됨
             UpdatePrevious() {
                 this.previous = document.querySelector('.previous');
-                if (this.thereIsOperator && this.recentIsNumber) {
+                if (this.recentIsNumber > 0) {
                     this.previous.innerText = this.main();
                     console.log("previous 갱신")
-                } else if (!this.recentIsNumber) {
+                } else if (this.recentIsNumber === 0) {
                     this.previous.innerText = "계산중...";
                 }
             }
+
+            // 백스페이스 버튼 클릭 시 실행되는 메서드
+            Backspace() {
+                let cur = this.current.innerText;
+                this.current.innerText = cur.slice(0, -1);
+                let lastValue = cur.slice(-1);
+                if (lastValue == "+" || lastValue == "-" || lastValue == "×" || lastValue == "÷") {
+                    this.recentIsNumber = 0;
+                } else if (true) {
+                    this.recentIsNumber = 1;
+                }
+                this.UpdatePrevious();
+                if (this.current.innerText.length == 0) {
+                    this.clear();
+                }
+            }
+
+            // 괄호 버튼 클릭 시 실행되는 메서드
+            ClickParentheses() {
+                if (this.recentIsNumber) {
+                    this.current.innerText += "(";
+                }
+            }
+
 
 
 
             // 입력식을 초기화하는 메서드
             clear() {
                 this.current.innerText = "0";
-                this.thereIsOperator = false;
+                this.thereIsOperator = 0;
+                this.recentIsNumber = 0;
                 this.previous.innerText = "값을 입력하세요."
-
             }
         }
-
         // 계산기 인스턴스 생성
         const calc = new Calculator();
     </script>
