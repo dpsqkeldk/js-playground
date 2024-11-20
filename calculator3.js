@@ -15,6 +15,7 @@ class StringCalculator {
         // } //괄호 계산 메서드 실행함수 미완성
         console.log("메인함수 실행");
         this.splitString();
+        // 메인함수 디버깅
         console.log("메인", this.numbers);
         console.log("메인", this.operators);
         this.calculatePercent();
@@ -22,7 +23,6 @@ class StringCalculator {
         this.findOperator();
         let result = this.postCalculate();
         return result; 
-        // 메인함수 디버깅
     }
 
     // 문자열 분리 메서드

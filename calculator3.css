@@ -1,6 +1,6 @@
 body {
     display: grid;
-    justify-items: center;
+    justify-items: left;
     margin: 0;
 }
 

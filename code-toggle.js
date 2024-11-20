@@ -20,11 +20,16 @@ async function toggleCode(codeType) {
         'JS': 'calculator3.js'
     };
 
+    // 언어 클래스 설정
+    codeTypeElement.className = `language-${codeType.toLowerCase()}`;
+    
     if (codeBlock.style.display === 'none') {
         codeBlock.style.display = 'block';
         // 코드 불러오기
         const code = await loadCode(files[codeType]);
         codeTypeElement.textContent = code;
+        // 코드 하이라이팅 적용
+        hljs.highlightElement(codeTypeElement);
     } else {
         codeBlock.style.display = 'none';
     }
