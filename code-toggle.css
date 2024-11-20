@@ -1,0 +1,19 @@
+.code-btn-container {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+.code-btn {
+    padding: 8px 16px;
+    background-color: #4CAF50;
+    color: white;
+    margin: 0 5px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.code-btn:hover {
+    background-color: #45a049;
+}
