@@ -40,10 +40,28 @@ body {
     font-size: 1.2em;
     border: none;
     cursor: pointer;
+    /* 호버 효과 */
+    transform: translateY(0);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+}
+/* 버튼 호버 효과 */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+}
+/* 버튼 클릭 효과 */
+.btn:active {
+    transform: translateY(1px);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2);
 }
 
 .number, .dot, .plusminus {
     background-color: #fff;
+}
+
+.dot, .plusminus {
+    background-color: #fff;
+    color: rgb(173, 163, 163);
 }
 
 .operator, .percent, .parentheses {

@@ -41,19 +41,19 @@
             <button class="btn number">2</button>
             <button class="btn number">3</button>
             <button class="btn operator">+</button>
-            <button class="btn plusminus">+/-</button>
+            <button class="btn plusminus" style="font-size: 0.8rem;">made<br>by</button>
             <button class="btn number">0</button>
-            <button class="btn dot">.</button>
+            <button class="btn dot" style="font-size: 0.8rem;">Seong<br>Jun</button>
             <button class="btn equal">=</button>
         </div>
     </div>
     <div class="code-btn-container">
+        <p>Code:</p>
+        <button onclick="toggleCode('HTML')" class="code-btn" id="html-code-btn">HTML</button>
 
-        <button onclick="toggleCode('HTML')" class="code-btn" id="html-code-btn">HTML 코드보기</button>
+        <button onclick="toggleCode('CSS')" class="code-btn" id="css-code-btn">CSS</button>
 
-        <button onclick="toggleCode('CSS')" class="code-btn" id="css-code-btn">CSS 코드보기</button>
-
-        <button onclick="toggleCode('JS')" class="code-btn" id="js-code-btn">JS 코드보기</button>
+        <button onclick="toggleCode('JS')" class="code-btn" id="js-code-btn">JS</button>
 
     </div>
     <div id="codeBlock" style="display: none;">

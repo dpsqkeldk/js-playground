@@ -120,7 +120,7 @@ class StringCalculator {
         if (countA === countB) {
             let indexA = this.array.indexOf("(");
             let indexB = this.array.lastIndexOf(")");
-
+            
         }
     }
 }
@@ -132,6 +132,8 @@ class Calculator extends StringCalculator {
     constructor() {
         super();
         this.addEventListeners();
+        this.current = document.querySelector('.current');
+        this.previous = document.querySelector('.previous');
         this.thereIsOperator = 0; // 연산자 개수
         this.recentIsNumber = 0; // 최근에 숫자버튼 클릭 여부 (previous 갱신)
         this.recentIsPercent = false;
@@ -167,7 +169,6 @@ class Calculator extends StringCalculator {
             return;
         }
         console.log("숫자 입력", number);
-        this.current = document.querySelector('.current');
         if (this.current.innerText == "0") {
             this.current.innerText = "";
         } //이로 인해 첫 입력 시 0 삭제 || 0입력 시 0 유지
@@ -202,7 +203,6 @@ class Calculator extends StringCalculator {
 
     // 입력식 계산값을 실시간으로 갱신하는 메서드 // 숫자버튼 클릭시마다 호출됨
     UpdatePrevious() {
-        this.previous = document.querySelector('.previous');
         if (this.recentIsNumber > 0) {
             this.previous.innerText = this.main();
         } else if (this.thereIsOperator === 1) {
@@ -220,6 +220,11 @@ class Calculator extends StringCalculator {
         } else {
             this.recentIsNumber = 1;
         }
+        if (lastValue == "%") {
+            this.recentIsPercent = true;
+        } else {
+            this.recentIsPercent = false;
+        }
         this.UpdatePrevious();
         if (this.current.innerText.length == 0) {
             this.clear();
@@ -232,20 +237,18 @@ class Calculator extends StringCalculator {
 
     // 퍼센트 버튼 클릭 시 실행되는 메서드
     ClickPercent() {
-        if (!this.recentIsPercent) {
+        if (!this.recentIsPercent && this.recentIsNumber > 0) {
             this.current.innerText += "%";
             this.recentIsPercent = true;
             this.UpdatePrevious();
         } else {
-            console.log("퍼센트 연속 입력 방지");
+            console.log("퍼센트 연속 입력&연산자 이후 입력 방지");
         }
     }
 
     // 괄호 버튼 클릭 시 실행되는 메서드
     ClickParentheses() {
-        if (this.recentIsNumber) {
-            this.current.innerText += "(";
-        }
+        this.previous.innerText = "괄호 입력 미구현";
     }
 
 
