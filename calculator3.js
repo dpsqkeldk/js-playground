@@ -15,18 +15,20 @@ class StringCalculator {
         // } //괄호 계산 메서드 실행함수 미완성
         console.log("메인함수 실행");
         this.splitString();
-        this.convertString();
-        this.findOperator();
         console.log("메인", this.numbers);
         console.log("메인", this.operators);
-        return this.postCalculate();
+        this.calculatePercent();
+        this.convertString();
+        this.findOperator();
+        let result = this.postCalculate();
+        return result; 
         // 메인함수 디버깅
     }
 
     // 문자열 분리 메서드
     splitString() {
         this.numbers = this.current.innerText.split(/[\+\-\×\÷]/);
-        this.operators = this.current.innerText.split(/[0-9]/);
+        this.operators = this.current.innerText.split(/[0-9, %]/);
         while (this.operators.includes("")) {
             let index = this.operators.indexOf("");
             this.operators.splice(index, 1);
@@ -34,6 +36,24 @@ class StringCalculator {
         console.log("current 문자열 > Num/op 분리");
         console.log(this.numbers);
         console.log(this.operators);
+    }
+
+    // 퍼센트 계산 메서드
+    calculatePercent() {
+        if (this.current.innerText.includes("%")) {
+            const indexes = this.numbers.reduce((acc, cur ,index) => {
+                if (cur.includes('%')) {
+                    acc.push(index);
+                }
+                return acc;
+            }, []);
+            console.log(indexes);
+            while (indexes.length > 0) {
+                this.numbers[indexes[0]] = this.numbers[indexes[0]].slice(0, -1);
+                this.numbers[indexes[0]] /= 100;
+                indexes.splice(0, 1);
+            }
+        }
     }
 
     // 문자열 Number 변환 메서드
@@ -114,6 +134,7 @@ class Calculator extends StringCalculator {
         this.addEventListeners();
         this.thereIsOperator = 0; // 연산자 개수
         this.recentIsNumber = 0; // 최근에 숫자버튼 클릭 여부 (previous 갱신)
+        this.recentIsPercent = false;
     }
 
     // 이벤트 리스너 설정 메서드
@@ -136,10 +157,15 @@ class Calculator extends StringCalculator {
         });
         document.querySelector('.backspace').addEventListener('click', () => this.Backspace());
         document.querySelector('.equal').addEventListener('click', () => this.equal());
+        document.querySelector('.percent').addEventListener('click', () => this.ClickPercent());
     }
 
     // 숫자버튼 클릭 시 실행되는 메서드
     ClickNumber(number) {
+        if (this.recentIsPercent) {
+            console.log("숫자 이후 퍼센트 입력 방지");
+            return;
+        }
         console.log("숫자 입력", number);
         this.current = document.querySelector('.current');
         if (this.current.innerText == "0") {
@@ -162,6 +188,7 @@ class Calculator extends StringCalculator {
             this.current.innerText += operator;
             this.thereIsOperator++;
             this.recentIsNumber = 0;
+            this.recentIsPercent = false;
             this.UpdatePrevious();
         } else if (this.thereIsOperator > 0) {
             console.log("연산자 이후 연산자 방지")
@@ -185,11 +212,11 @@ class Calculator extends StringCalculator {
 
     // 백스페이스 버튼 클릭 시 실행되는 메서드
     Backspace() {
-        let cur = this.current.innerText;
-        this.current.innerText = cur.slice(0, -1);
+        this.current.innerText = this.current.innerText.slice(0, -1);
         let lastValue = this.current.innerText.slice(-1);
         if (lastValue == "+" || lastValue == "-" || lastValue == "×" || lastValue == "÷") {
             this.recentIsNumber = 0;
+            this.thereIsOperator = 1;
         } else {
             this.recentIsNumber = 1;
         }
@@ -201,6 +228,17 @@ class Calculator extends StringCalculator {
     // 등호 버튼 클릭 시 실행되는 메서드
     equal() {
         this.current.innerText = this.main();
+    }
+
+    // 퍼센트 버튼 클릭 시 실행되는 메서드
+    ClickPercent() {
+        if (!this.recentIsPercent) {
+            this.current.innerText += "%";
+            this.recentIsPercent = true;
+            this.UpdatePrevious();
+        } else {
+            console.log("퍼센트 연속 입력 방지");
+        }
     }
 
     // 괄호 버튼 클릭 시 실행되는 메서드
@@ -218,6 +256,7 @@ class Calculator extends StringCalculator {
         this.current.innerText = "0";
         this.thereIsOperator = 0;
         this.recentIsNumber = 0;
+        this.recentIsPercent = false;
         this.previous.innerText = "값을 입력하세요."
     }
 }

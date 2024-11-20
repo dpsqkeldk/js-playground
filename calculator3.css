@@ -42,16 +42,17 @@ body {
     cursor: pointer;
 }
 
-.number {
+.number, .dot, .plusminus {
     background-color: #fff;
 }
 
-.operator {
+.operator, .percent, .parentheses {
     background-color: #d3d3d3;
     color: green;
 }
 
-.operator.clear {
+.clear {
+    background-color: #d3d3d3;
     color: red;
 }
 
