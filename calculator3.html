@@ -36,7 +36,7 @@
             <button class="btn operator plusminus">+/-</button>
             <button class="btn number">0</button>
             <button class="btn operator dot">.</button>
-            <button class="btn operator equal">=</button>
+            <button class="btn equal">=</button>
         </div>
     </div>
     <script>
@@ -69,8 +69,6 @@
                     let index = this.operators.indexOf("");
                     this.operators.splice(index, 1);
                 }
-                console.log("숫자:", this.numbers);
-                console.log("연산자:", this.operators);
             }
 
             // 문자열 Number 변환 메서드
@@ -78,7 +76,7 @@
                 this.numbers = this.numbers.map(num => Number(num));
             }
 
-            // 곱셈, 나눗셈 메서드
+            // 곱셈, 나눗셈 찾기 메서드
             findOperator() {
                 while (this.operators.includes("×") || this.operators.includes("÷")) {
                     if (this.operators.includes("×")) {
@@ -105,7 +103,7 @@
 
             // 덧셈, 뺄셈 계산 메서드
             postCalculate() {
-                while (!this.operators.length == 0) {
+                while (this.operators.length > 1) {
                     switch (this.operators[0]) {
                         case "+": this.numbers[0] += this.numbers[1];
                             this.numbers.splice(1, 1);
@@ -163,6 +161,7 @@
                     this.ClickParentheses();
                 });
                 document.querySelector('.backspace').addEventListener('click', () => this.Backspace());
+                document.querySelector('.equal').addEventListener('click', () => this.equal());
             }
 
             // 숫자버튼 클릭 시 실행되는 메서드
@@ -197,7 +196,6 @@
                 this.previous = document.querySelector('.previous');
                 if (this.recentIsNumber > 0) {
                     this.previous.innerText = this.main();
-                    console.log("previous 갱신")
                 } else if (this.recentIsNumber === 0) {
                     this.previous.innerText = "계산중...";
                 }
@@ -207,16 +205,20 @@
             Backspace() {
                 let cur = this.current.innerText;
                 this.current.innerText = cur.slice(0, -1);
-                let lastValue = cur.slice(-1);
+                let lastValue = this.current.innerText.slice(-1);
                 if (lastValue == "+" || lastValue == "-" || lastValue == "×" || lastValue == "÷") {
                     this.recentIsNumber = 0;
-                } else if (true) {
+                } else {
                     this.recentIsNumber = 1;
                 }
                 this.UpdatePrevious();
                 if (this.current.innerText.length == 0) {
                     this.clear();
                 }
+            }
+            // 등호 버튼 클릭 시 실행되는 메서드
+            equal() {
+                this.current.innerText = this.main();
             }
 
             // 괄호 버튼 클릭 시 실행되는 메서드
