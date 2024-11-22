@@ -1,0 +1,13 @@
+.displayTop {
+    width: 100%;
+    min-height: 40px;
+    background-color: #e9ecef;  /* 배경색 추가 */
+    padding: 10px;
+    
+    /* 텍스트 중앙 정렬을 위한 Flexbox 설정 */
+    display: flex;
+    justify-content: center;  /* 가로 중앙 정렬 */
+    align-items: center;      /* 세로 중앙 정렬 */
+
+    border: 1px solid #000;
+}
