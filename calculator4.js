@@ -147,8 +147,119 @@ class Display {
     }
 }
 
-// 계산 로직을 담당하는 클래스
-class Calculator { }
+// 계산을 담당하는 클래스
+class Calculator {
+    #formula;
+    constructor() {
+        this.#formula = '';
+    }
+
+    // 전략 설정 메서드
+    setStrategy(value) {
+        if (this.validateInput(value)) {
+            // 계산 가능상태
+        } else {
+            // 계산 불가상태
+        }
+    }
+
+    // 식 유효성 검사 메서드
+    validateInput(value) {
+        // 마지막 입력값 확인
+        const lastInput = this.#formula.slice(-1);
+        switch (lastInput) {
+            case '+':
+            case '-':
+            case 'x':
+            case '÷':
+            case '(':
+                return false;
+        }
+        return true;
+    }
+
+    // 계산 총괄 메서드
+    // 계산순서: 괄호 -> 곱셈 나눗셈 -> 덧셈 뺄셈
+    calculate(value) {
+        while (value.includes('(')) {
+            // 가장 안쪽 괄호 찾기
+            const parentheses = this.findParentheses(value);
+            // 괄호 안 식 추출
+            const innerExpression = parentheses.slice(1, -1);
+            // 곱셈 나눗셈 계산
+            const mulDivResult = this.calculateMulDiv(innerExpression);
+            // 덧셈 뺄셈 계산
+            const finalResult = this.calculatePlusMinus(mulDivResult);
+            // 괄호 안 식 계산 결과로 변경
+            value = value.replace(parentheses, finalResult);
+        }
+    }
+
+    // 사칙연산 계산 메서드
+    calculateMulDiv(value) {
+        while (value.includes('x') || value.includes('÷')) {
+            // 첫번째 곱셈 나눗셈 찾기
+            const formula = value.match(/[0-9]+[x\÷][0-9]+/);
+            // formula 곱셈 나눗셈 계산 후 result에 결과 반환
+            const [num1, operator, num2] = formula.split(/([x\÷])/);
+            let result;
+            switch (operator) {
+            case 'x':
+                result = Number(num1) * Number(num2);
+                break;
+            case '÷':
+                result = Number(num1) / Number(num2);
+                break;
+            }
+            // value에서 formula 찾아서 result로 변경
+            value = value.replace(formula, result);
+        }
+        return value;
+    }
+    
+    // 덧셈 뺄셈 계산 메서드
+    calculatePlusMinus(value) {
+        const arrFormula = value.split(/([+\-])/);
+        while (arrFormula.length > 1) {
+            switch (arrFormula[1]) {
+                case '+':
+                    arrFormula[0] = Number(arrFormula[0]) + Number(arrFormula[2]);
+                    arrFormula.splice(1, 2);
+                    break;
+                case '-':
+                    arrFormula[0] = Number(arrFormula[0]) - Number(arrFormula[2]);
+                    arrFormula.splice(1, 2);
+                    break;
+            }
+        }
+        return arrFormula[0];
+    }
+
+    // 안쪽 괄호 찾기 메서드
+    findParentheses(value) {
+        this.addParentheses(value);
+            //가장 안쪽 괄호 찾기
+            const complete = this.addParentheses(value);
+            const parentheses = complete.match(/\([^\(\)]+\)/);
+            console.log(parentheses);
+        return parentheses;
+    }
+
+    // 괄호 추가 메서드
+    addParentheses(value) {
+        const openCount = value.match(/\(/g) || [];
+        const closeCount = value.match(/\)/g) || [];
+        // 열린 괄호가 더 많은 경우
+        // 차이만큼 닫힌 괄호 추가
+        if (openCount.length > closeCount.length) {
+            const difference = openCount.length - closeCount.length;
+            for (let i = 0; i < difference; i++) {
+                value += ')';
+            }
+        }
+        return value;
+    }
+}
 
 class OperatorStrategy { }
 
@@ -162,4 +273,5 @@ class CalculatorState { }
 // 인스턴스 생성
 const inputHandler = new InputHandler();
 const display = new Display();
+const calculator = new Calculator();
 inputHandler.addObserver(display);
