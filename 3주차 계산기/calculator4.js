@@ -302,15 +302,6 @@ class Calculator {
     }
 }
 
-class OperatorStrategy { }
-
-class NumberStrategy { }
-
-class UpdateDisplayState { }
-
-class CalculatorState { }
-
-
 // 인스턴스 생성
 const inputHandler = new InputHandler();
 const display = new Display();
