@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>재귀함수를 이용한 피보나치 수열</title>
+</head>
+<body>
+    <script>
+        const number = prompt("출력할 피보나치 수열의 n번째 숫자를 입력해주세요");
+        fibo(1, 1, number);
+
+        function fibo(value1, value2, repeat) {
+            if (repeat <= 2) {
+                console.log(`${number}번째 피보나치 숫자는 ${value1.toLocaleString()}입니다.`)
+                return;
+            }
+            return fibo(value1 + value2, value1, repeat - 1);
+        }
+    </script>
+</body>
+</html>
