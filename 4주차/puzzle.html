@@ -6,7 +6,8 @@
     <title>숫자 퍼즐1</title>
 </head>
 <body>
-    입력값: <input id="input">
+    입력값: <input id="input", value="Hello">
+    <button id="check">확인</button>
     <div>   
         <button id="btn1"></button>
         <button id="btn2"></button>
@@ -15,17 +16,11 @@
         <button id="btn5"></button>
     </div>
     <div>
-        <button id="turn"></button>
-        <button id="push"></button>
+        <button id="turn">뒤집기</button>
+        <button id="rightPush">우측으로 밀어내기</button>
+        <button id="leftPush">좌측으로 밀어내기</button>
     </div>
-    일치 여부: <span id="result"></span>
-    <script>
-        document.getElementById('turn').addEventListener('click', () => {
-            
-        })
-        document.getElementById('push').addEventListener('click', () => {
-
-        })
-    </script>
-    </body>
+    일치 여부: <span id="matchStatus"></span>
+    <script src="puzzle.js"></script>
+</body>
 </html>
