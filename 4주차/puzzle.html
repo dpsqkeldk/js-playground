@@ -1,22 +1,28 @@
 <!DOCTYPE html>
 <html lang="ko">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>숫자 퍼즐1</title>
 </head>
+
 <body>
-    <button id="check">단어 뽑기</button><br>
-    뽑은 단어: <span id="word"></span>
-    <div id="btn">
-        <button>이곳에 값이 생깁니다.</button>
+    <div id="end">
+        <button id="check">단어 뽑기</button><br>
+        정답횟수: <span id="checkAnswer"></span><br>
+        뽑은 단어: <span id="word"></span>
+        <div id="btn">
+            <button>이곳에 값이 생깁니다.</button>
+        </div>
+        <div>
+            <button id="turn">뒤집기</button>
+            <button id="leftPush">좌측으로 밀어내기</button>
+            <button id="rightPush">우측으로 밀어내기</button>
+        </div>
+        일치 여부: <span id="matchStatus"></span>
     </div>
-    <div>
-        <button id="turn">뒤집기</button>
-        <button id="leftPush">좌측으로 밀어내기</button>
-        <button id="rightPush">우측으로 밀어내기</button>
-    </div>
-    일치 여부: <span id="matchStatus"></span>
     <script src="puzzle.js"></script>
 </body>
+
 </html>

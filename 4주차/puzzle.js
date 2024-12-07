@@ -3,20 +3,15 @@ class NumberPuzzle {
         this.input = '';
         this.btn = [];
         this.word = ['JavaScript', 'HTML', 'MediaQuery', 'NodeJs', 'React', 'Element', 'Document'] //7개
-
+        this.usedWord = [];
+        this.checkCount = 0;
         this.addEventListener();
     }
 
     addEventListener() {
         document.getElementById('check').addEventListener('click', () => {
-            this.input = this.getWord();
-            document.getElementById('word').innerHTML = this.input;
-            this.btn = this.input.split('');
-            this.btn = this.mixArr(this.btn);
-            this.addButton();
-            this.btnUpdate();
+            this.handleCheckClick();
         })
-
         document.getElementById('turn').addEventListener('click', () => {
             this.btn = this.btnTurn(this.btn);
             this.btnUpdate();
@@ -31,9 +26,22 @@ class NumberPuzzle {
         })
     }
 
+    handleCheckClick() {
+        this.input = this.getWord();
+        document.getElementById('word').innerHTML = this.input;
+        this.btn = this.input.split('');
+        this.btn = this.mixArr(this.btn);
+        this.addButton();
+        this.btnUpdate();
+    }
+
     getWord() {
         let value = Math.floor(Math.random() * 7);
-        return this.word[value];
+        if (!this.usedWord.includes(value)){
+            return this.word[value];
+        } else {
+            return this.getWord();
+        }
     }
 
     mixArr(arr) {
@@ -66,6 +74,7 @@ class NumberPuzzle {
         return newArr;
     }
 
+
     addButton() {
         let len = this.btn.length;
         let btn = ''
@@ -86,8 +95,16 @@ class NumberPuzzle {
     checkMatchStatus() {
         if (this.btn.join('') == this.input) {
             document.getElementById('matchStatus').innerText = '일치합니다.'
+            this.checkCount++;
+            document.getElementById('checkAnswer').innerHTML += '○';
+            this.usedWord.push(this.word.indexOf(this.input));
+            console.log(this.usedWord);
+            this.handleCheckClick();
         } else {
             document.getElementById('matchStatus').innerText = '일치하지 않습니다.'
+        }
+        if (this.checkCount === 3) {
+            document.getElementById('end').innerHTML = 'Thank you for playing!'
         }
     }
 
