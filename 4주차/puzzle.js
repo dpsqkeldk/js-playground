@@ -2,31 +2,83 @@ class NumberPuzzle {
     constructor() {
         this.input = '';
         this.btn = [];
+        this.word = ['JavaScript', 'HTML', 'MediaQuery', 'NodeJs', 'React', 'Element', 'Document'] //7개
 
         this.addEventListener();
     }
 
     addEventListener() {
         document.getElementById('check').addEventListener('click', () => {
-            this.input = document.getElementById('input').value;
+            this.input = this.getWord();
+            document.getElementById('word').innerHTML = this.input;
             this.btn = this.input.split('');
+            this.btn = this.mixArr(this.btn);
+            this.addButton();
             this.btnUpdate();
         })
 
         document.getElementById('turn').addEventListener('click', () => {
-            this.btnTurn();
+            this.btn = this.btnTurn(this.btn);
+            this.btnUpdate();
         })
         document.getElementById('rightPush').addEventListener('click', () => {
-            this.btnRightPush();
+            this.btn = this.btnRightPush(this.btn);
+            this.btnUpdate();
         })
         document.getElementById('leftPush').addEventListener('click', () => {
-            this.btnLeftPush();
+            this.btn = this.btnLeftPush(this.btn);
+            this.btnUpdate();
         })
     }
 
+    getWord() {
+        let value = Math.floor(Math.random() * 7);
+        return this.word[value];
+    }
+
+    mixArr(arr) {
+        let newArr = arr.slice();
+        let repeat = Math.floor(Math.random() * 2 + 3); // 3-4회 mix
+        for (let i = 0; i < repeat; i++) {
+            let num = Math.floor(Math.random() * 2); // 0-2 숫자 뽑기
+            switch(num) {
+                case 0:
+                    newArr = this.btnTurn(arr);
+                    break;
+                case 1:
+                    for (let i = 0; i < Math.floor(Math.random()*5 + 1); i++) {
+                        newArr = this.btnLeftPush(arr);
+                        newArr = this.btnLeftPush(newArr);
+                    }
+                    break;
+                case 2:
+                    for (let i = 0; i < Math.floor(Math.random()*5 + 1); i++) {
+                        newArr = this.btnRightPush(arr);
+                        newArr = this.btnRightPush(newArr);
+                    }
+                    break;
+            }
+        }
+        if (newArr.join() == arr.join()) {
+            console.log('중복발생');
+            this.mixArr(arr);
+        }
+        return newArr;
+    }
+
+    addButton() {
+        let len = this.btn.length;
+        let btn = ''
+        for (let i = 0; i < len; i++) {
+            btn += `<button id='btn${i}'></button>`
+        }
+        document.getElementById('btn').innerHTML = btn;
+    }
+    
     btnUpdate() {
-        for (let i = 0; i < this.btn.length; i++) {
-            document.getElementById(`btn${i + 1}`).innerText = this.btn[i];
+        let len = this.btn.length;
+        for (let i = 0; i < len; i++) {
+            document.getElementById(`btn${i}`).innerText = this.btn[i];
         }
         this.checkMatchStatus();
     }
@@ -39,36 +91,33 @@ class NumberPuzzle {
         }
     }
 
-    btnTurn() {
-        let arr = [];
-        let len = this.btn.length;
+    btnTurn(arr) {
+        let newArr = [];
+        let len = arr.length;
         for (let i = 0; i < len; i++) {
-            arr[len - i - 1] = this.btn[i];
+            newArr[len - i - 1] = arr[i];
         }
-        this.btn = arr;
-        this.btnUpdate();
+        return newArr;
     }
 
-    btnRightPush() {
-        let arr = [];
-        let len = this.btn.length;
-        arr[0] = this.btn[len - 1]
+    btnRightPush(arr) {
+        let newArr = [];
+        let len = arr.length;
+        newArr[0] = arr[len - 1]
         for (let i = 0; i < len - 1; i++) {
-            arr[i + 1] = this.btn[i];
+            newArr[i + 1] = arr[i];
         }
-        this.btn = arr;
-        this.btnUpdate();
+        return newArr;
     }
 
-    btnLeftPush() {
-        let arr = [];
-        let len = this.btn.length;
-        arr[len - 1] = this.btn[0];
+    btnLeftPush(arr) {
+        let newArr = [];
+        let len = arr.length;
+        newArr[len - 1] = arr[0];
         for (let i = 1; i < len; i++) {
-            arr[i - 1] = this.btn[i];
+            newArr[i - 1] = arr[i];
         }
-        this.btn = arr;
-        this.btnUpdate();
+        return newArr;
     }
 }
 
