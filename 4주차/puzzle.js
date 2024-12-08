@@ -7,13 +7,15 @@ class NumberPuzzle {
         this.usedWord = [];
         this.checkCount = 0;
         this.isGameEnded = false;
+        this.timerDisplay = document.getElementById('timer').innerHTML;
         this.time = {
             gameStart: false,
             startTime: null,
             endTime: null,
-            timeElapsed: null,
-            timer: false,
-            timerInterval: null
+        }
+        this.timer = {
+            id: null,
+            elapsed: null,
         }
         this.ranking = {};
         this.addEventListener();
@@ -22,6 +24,7 @@ class NumberPuzzle {
     addEventListener() {
         document.getElementById('check').addEventListener('click', () => {
             this.handleCheckClick();
+            this.timerSet();
         })
         document.getElementById('turn').addEventListener('click', () => {
             this.btn = this.btnTurn(this.btn);
@@ -40,7 +43,7 @@ class NumberPuzzle {
         })
     }
     
-    // 게임시작 클릭 시
+    // 게임시작 클릭 시 및 단어 정답 완성 시
     handleCheckClick() {
         this.input = this.getWord();
         document.getElementById('word').innerHTML = this.input;
@@ -56,7 +59,15 @@ class NumberPuzzle {
 
     // 타이머
     timerSet() {
-        this.timerInterval = this.time.startTime - Date.now;
+        this.timer.id = setInterval(() => {
+            let time = Date.now() - this.time.startTime;
+            document.getElementById('timer').innerHTML = time + 'ms';
+        }, 50)
+    }
+
+    timerOut() {
+        clearInterval(this.timer.id);
+        this.timer.id = null;
     }
 
     getWord() {
@@ -131,6 +142,8 @@ class NumberPuzzle {
         if (this.checkCount === 3 && !this.isGameEnded) {
             this.isGameEnded = true;
             this.gameEnding();
+            this.timerOut();
+            console.log('타이머종료')
         }
     }
 
